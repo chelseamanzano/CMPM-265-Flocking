@@ -48,12 +48,12 @@ void Vehicle::draw() {
 }
 
 void Vehicle::wrapAround() {
-	if (vehicle.getPosition().x + 5 < 0) {
-		vehicle.setPosition(Vector2f(SCREEN_WIDTH + 15, vehicle.getPosition().y));
+	if (vehicle.getPosition().x + 7.5 < 0) {
+		vehicle.setPosition(Vector2f(SCREEN_WIDTH + 7.5, vehicle.getPosition().y));
 	}
 
-	if (vehicle.getPosition().x - 5 > SCREEN_WIDTH) {
-		vehicle.setPosition(Vector2f(-15, vehicle.getPosition().y));
+	if (vehicle.getPosition().x - 7.5 > SCREEN_WIDTH) {
+		vehicle.setPosition(Vector2f(-7.5, vehicle.getPosition().y));
 	}
 
 	if (vehicle.getPosition().y + 5 < 0) {
