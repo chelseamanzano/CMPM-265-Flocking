@@ -12,11 +12,13 @@ VehicleSystem::~VehicleSystem() {
 }
 
 void VehicleSystem::addVehicle(Vector2f position) {
-
+	
 }
 
 void VehicleSystem::update(float dt) {
-
+	/*for (int i = 0; i < vehicles.size(); i++) {
+		V
+	}*/
 }
 
 void VehicleSystem::draw() {

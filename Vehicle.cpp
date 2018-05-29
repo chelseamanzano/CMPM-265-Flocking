@@ -7,7 +7,7 @@ Vehicle::Vehicle() {
 Vehicle::Vehicle(Vector2f position) {
 	this->position = position;
 	direction = Vector2f(0, -1);
-	speed = 250;
+	speed = 400;
 	actualSpeed = speed;
 	velocity = speed * direction;
 	maxForce = 50;
@@ -49,11 +49,11 @@ void Vehicle::draw() {
 
 void Vehicle::wrapAround() {
 	if (vehicle.getPosition().x + 5 < 0) {
-		vehicle.setPosition(Vector2f(SCREEN_WIDTH + 5, vehicle.getPosition().y));
+		vehicle.setPosition(Vector2f(SCREEN_WIDTH + 15, vehicle.getPosition().y));
 	}
 
 	if (vehicle.getPosition().x - 5 > SCREEN_WIDTH) {
-		vehicle.setPosition(Vector2f(-5, vehicle.getPosition().y));
+		vehicle.setPosition(Vector2f(-15, vehicle.getPosition().y));
 	}
 
 	if (vehicle.getPosition().y + 5 < 0) {
