@@ -19,5 +19,3 @@ using namespace std;
 #define SCREEN_WIDTH 800
 
 extern sf::RenderWindow window;
-
-//vector<Vehicle*> vehicles;

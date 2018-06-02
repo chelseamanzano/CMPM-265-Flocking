@@ -15,6 +15,7 @@ private:
 	Vector2f desiredVelocity;
 	Vector2f steeringForce;
 	Vector2f target;
+	float alignmentMult = 1, separationMult = 3, cohesionMult = .2;
 	
 public:
 	Vehicle();
@@ -28,4 +29,5 @@ public:
 	void draw();
 	void update(float dt);
 	void wrapAround();
+	void Flock(vector<Vehicle*>* vehicles);
 };

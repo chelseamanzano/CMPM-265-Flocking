@@ -7,7 +7,7 @@ Vehicle::Vehicle() {
 Vehicle::Vehicle(Vector2f position) {
 	this->position = position;
 	direction = Vector2f(0, -1);
-	speed = 400;
+	speed = 200;
 	actualSpeed = speed;
 	velocity = speed * direction;
 	maxForce = 50;
@@ -37,10 +37,12 @@ void Vehicle::update(float dt) {
 		actualSpeed = speed;
 	}
 	computeDesiredVelocity();
-	computeSteeringForce();
+	//computeSteeringForce();
 	velocity += steeringForce * dt;
 	vehicle.setPosition(vehicle.getPosition() + (velocity * dt));
 	vehicle.setRotation(convertVector(velocity));
+	position = vehicle.getPosition();
+	steeringForce *= 0.f;
 }
 
 void Vehicle::draw() {
@@ -78,7 +80,7 @@ void Vehicle::computeDesiredVelocity() {
 	Vector2f dir = vectorSubtract(target, vehicle.getPosition());
 	float mag = magnitude(dir);
 	Vector2f normalizedDir = normalize(dir, mag);
-	desiredVelocity = normalizedDir * actualSpeed;
+	steeringForce += normalizedDir * cohesionMult;
 }
 
 void Vehicle::computeSteeringForce() {
@@ -87,4 +89,53 @@ void Vehicle::computeSteeringForce() {
 
 void Vehicle::setTarget(Vector2f t) {
 	target = t;
+}
+
+void Vehicle::Flock(vector<Vehicle*>* vehicles) {
+	Vector2f alignmentSum = Vector2f(0,0);
+	Vector2f cohesionSum = Vector2f(0, 0);
+	Vector2f separationSum = Vector2f(0, 0);
+	int count = 0;
+	float neighborDistance = 40;
+	float desiredSeparation = 20;
+	bool separation = false;
+
+	for (int i = 0; i < vehicles->size(); i++) {
+		float distance = magnitude(vehicles->at(i)->position - vehicle.getPosition());
+
+		if (distance > 0 && distance < neighborDistance) {
+			alignmentSum += vehicles->at(i)->velocity;
+			cohesionSum += vehicles->at(i)->position;
+			
+			count++;
+		}
+		if (distance > 0 && distance < desiredSeparation) {
+			//separationSum += normalize(vehicles->at(i)->position - vehicle.getPosition(), magnitude(vehicles->at(i)->position - vehicle.getPosition()));
+			separation = true;
+			separationSum += normalize(vehicle.getPosition() - vehicles->at(i)->position) / distance;
+			
+		}
+		
+	}
+
+	//Alignment
+	if (count > 0) {
+		alignmentSum = normalize(alignmentSum, magnitude(alignmentSum))*speed;
+		Vector2f steer = normalize(alignmentSum - velocity) * maxForce;
+		steeringForce += steer*alignmentMult;
+	}
+
+	//Cohesion
+	if (count > 0) {
+		cohesionSum /= (float)count;
+		setTarget(cohesionSum);
+	}
+
+	//Separation
+	if (separation) {
+		separationSum = normalize(separationSum, magnitude(separationSum))*speed;
+		Vector2f steer = normalize(separationSum - velocity) * maxForce;
+		steeringForce += steer*separationMult;
+	}
+
 }

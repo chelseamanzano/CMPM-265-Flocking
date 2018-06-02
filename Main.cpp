@@ -1,4 +1,5 @@
 #include "Vehicle.h"
+#include "VehicleSystem.h"
 
 RenderWindow window;
 
@@ -9,8 +10,10 @@ int main()
 	srand(static_cast<unsigned>(time(NULL)));
 	Clock clock;
 
-	Vehicle v(Vector2f(200, 300));
-	v.create();
+	//Vehicle v(Vector2f(200, 300));
+	//v.create();
+	VehicleSystem* vs = new VehicleSystem();
+
 	while (window.isOpen())
 	{
 		sf::Event event;
@@ -18,15 +21,19 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
+			if (event.type == sf::Event::KeyPressed &&
+				event.key.code == sf::Keyboard::A) {
+				vs->addVehicle(Vector2f(Mouse::getPosition(window).x, Mouse::getPosition(window).y));
+			}
 		}
 
-		v.setTarget(Vector2f(Mouse::getPosition(window).x, Mouse::getPosition(window).y));
+		//v.setTarget(Vector2f(Mouse::getPosition(window).x, Mouse::getPosition(window).y));
 
 		float dt = clock.restart().asSeconds();
 
 		window.clear();
-		v.update(dt);
-		v.draw();
+		vs->update(dt);
+		vs->draw();
 		window.display();
 	}
 	return 0;

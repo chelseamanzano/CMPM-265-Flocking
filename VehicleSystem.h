@@ -3,7 +3,7 @@
 
 class VehicleSystem {
 private:
-	vector<Vehicle*> vehicles;
+	vector<Vehicle*> *vehicles;
 
 public:
 	VehicleSystem();

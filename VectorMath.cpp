@@ -9,6 +9,10 @@ Vector2f normalize(Vector2f v, float magnitude) {
 	return v/magnitude;
 }
 
+Vector2f normalize(Vector2f v) {
+	return v / magnitude(v);
+}
+
 Vector2f vectorSubtract(Vector2f a, Vector2f b) {
 	return a - b;
 }
