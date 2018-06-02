@@ -21,9 +21,25 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
-			if (event.type == sf::Event::KeyPressed &&
-				event.key.code == sf::Keyboard::A) {
+			if (event.type == sf::Event::MouseButtonPressed &&
+				event.key.code == sf::Mouse::Left) {
 				vs->addVehicle(Vector2f(Mouse::getPosition(window).x, Mouse::getPosition(window).y));
+			}
+			if (event.type == sf::Event::MouseButtonPressed &&
+				event.key.code == sf::Mouse::Right) {
+				vs->removeVehicle();
+			}
+			if (event.type == sf::Event::KeyPressed &&
+				event.key.code == sf::Keyboard::Num1) {
+				vs->alignment();
+			}
+			if (event.type == sf::Event::KeyPressed &&
+				event.key.code == sf::Keyboard::Num2) {
+				vs->separation();
+			}
+			if (event.type == sf::Event::KeyPressed &&
+				event.key.code == sf::Keyboard::Num3) {
+				vs->cohesion();
 			}
 		}
 
